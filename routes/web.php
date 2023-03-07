@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('movies')
     ->name('movies.')
     ->group(function () {
-        Route::get('list/genre/{genre}', [\App\Http\Controllers\MovieController::class, 'index'])->name('list');
+        Route::get('list', [\App\Http\Controllers\MovieController::class, 'index'])->name('list');
     });
 
-
+Route::get('/login', function () {
+    return "Hello " . request()->get('name') . " , Authentification required : please login !";
+})->name('login');
