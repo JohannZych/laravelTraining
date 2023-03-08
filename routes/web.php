@@ -13,12 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('movies')
-    ->name('movies.')
+Route::prefix('backoffice')
+    ->name('backoffice.')
     ->group(function () {
-        Route::get('list', [\App\Http\Controllers\MovieController::class, 'index'])->name('list');
+        Route::get('/', function () {
+            return view('backoffice.homepage');
+        })->name('homepage');
+        Route::prefix('movies')
+            ->name('movies.')
+            ->group(function () {
+                Route::get('/', [\App\Http\Controllers\Backoffice\MovieController::class, 'index'])->name('index');
+                Route::get('show/{id}', [\App\Http\Controllers\Backoffice\MovieController::class, 'show'])->name('show');
+                Route::get('edit/{id}',[\App\Http\Controllers\Backoffice\MovieController::class,'edit'])->name('edit');
+                Route::get('create',[\App\Http\Controllers\Backoffice\MovieController::class,'create'])->name('create');
+                Route::get('delete/{id}',[\App\Http\Controllers\Backoffice\MovieController::class,'delete'])->name('delete');
+            });
     });
-
-Route::get('/login', function () {
-    return "Hello " . request()->get('name') . " , Authentification required : please login !";
-})->name('login');
